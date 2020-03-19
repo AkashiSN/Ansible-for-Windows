@@ -1,4 +1,5 @@
-@powershell -NoProfile -ExecutionPolicy RemoteSigned "&([ScriptBlock]::Create((cat -encoding utf8 \"%~f0\" | ? {$_.ReadCount -gt 2}) -join \"`n\"))" %*
-@exit /b
+@set "args=%*"
+@powershell "iex((@('')*3+(cat '%~f0'|select -skip 3))-join[char]10)"
+@exit /b %ERRORLEVEL%
 
-docker run --rm -it --name="ansible" -v  "/$((Get-Location).Drive.Name.ToLowerInvariant())/$((Get-Location).Path.Replace('\', '/').Substring(3)):/workdir" akashisn/ansible ansible-playbook (Split-Path $Args[0] -Leaf)
+docker run --rm -it --name="ansible" -v  "/$((Get-Location).Drive.Name.ToLowerInvariant())/$((Get-Location).Path.Replace('\', '/').Substring(3)):/workdir" akashisn/ansible ansible-playbook $env:args

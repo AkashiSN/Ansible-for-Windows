@@ -6,6 +6,7 @@ ENV DEBCONF_NOWARNINGS=yes
 RUN apt-get update \
     && apt-get -y upgrade \
     && apt-get -y install \
+        sshpass \
         python3 \
         python3-pip \
     && apt-get clean \
